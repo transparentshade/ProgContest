@@ -1,8 +1,8 @@
 /*
 
- * 424.cpp
+ * NY10E.cpp
  *
- *  Created on: 14-Jan-2014
+ *  Created on: 16-Jan-2014
  *      Author: nik
 
 #include <cstdio>
@@ -19,8 +19,6 @@
 #include <set>
 #include <cstring>
 #include <bitset>
-#include <string.h>
-#include<iterator>
 using namespace std;
 #define x first
 #define y second
@@ -53,44 +51,36 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 #define MEMSET_HALF_INF 63 // about 1B
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
-vector<string> &split(const string &s, char delim, vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
+ll dp[66][10];
+void init() {
+	REP(i,0,9) {
+		dp[1][i] = 1;
+	}
 }
-string str;
-vector<string> words;
-char* reverse() {
-	int len = str.size();
-	split(str,' ',words);
-	string result;
-	REP(i,0,words.size()-2) {
-		//cout<<words[i]<<endl;
-		result = "";
-		REP(j,0,words[i].length()-1){
-			result = words[i][j]+result;
+ll proc(int n) {
+	REP(i,2,n){
+		REP(j,0,9){
+			REP(k,j,9) {
+				dp[i][j] += dp[i-1][k];
+			}
+			//cout<<"dp "<<i<<" "<<j<<" "<<dp[i][j]<<endl;
 		}
-		cout<<result<<" ";
 	}
-	result = "";
-	REP(j,0,words[words.size()-1].length()-1){
-				result = words[words.size()-1][j]+result;
+	ll ans=0;
+	REP(i,0,9) {
+		ans += dp[n][i];
 	}
-	cout<<result<<endl;
-	words.clear();
+	return ans;
 }
-void proc() {
-	while(getline(cin,str)!=NULL){
-		reverse();
-
-	}
-}
-
 int main() {
-	proc();
+	int T,count,num;
+	cin>>T;
+	REP(i,1,T) {
+		scanf("%d %d",&count,&num);
+		memset(dp,0,sizeof(dp));
+		init();
+		cout<<count<<" "<<proc(num)<<endl;
+	}
 }
 
 

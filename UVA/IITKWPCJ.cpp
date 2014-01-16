@@ -1,8 +1,8 @@
 /*
 
- * 424.cpp
+ * IITKWPCJ.cpp
  *
- *  Created on: 14-Jan-2014
+ *  Created on: 15-Jan-2014
  *      Author: nik
 
 #include <cstdio>
@@ -19,8 +19,6 @@
 #include <set>
 #include <cstring>
 #include <bitset>
-#include <string.h>
-#include<iterator>
 using namespace std;
 #define x first
 #define y second
@@ -53,45 +51,52 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 #define MEMSET_HALF_INF 63 // about 1B
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
-vector<string> &split(const string &s, char delim, vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-string str;
-vector<string> words;
-char* reverse() {
-	int len = str.size();
-	split(str,' ',words);
-	string result;
-	REP(i,0,words.size()-2) {
-		//cout<<words[i]<<endl;
-		result = "";
-		REP(j,0,words[i].length()-1){
-			result = words[i][j]+result;
+string s1,s2,t=" ";
+int T,j,tl=1;
+int main()
+{	cin>>T;
+	for(int i=0;i<T;i++)
+	{
+		int k=1,j=0,c=0;
+		cin>>s1>>s2;
+		t[0]=s1[0];
+		while(j<s1.length())
+		{
+			if(t.compare(s1.substr(j,t.length())))
+			{
+				t=s1.substr(0,j+1);
+				j++;
+			}
+			else
+				j+=t.length();
+
 		}
-		cout<<result<<" ";
-	}
-	result = "";
-	REP(j,0,words[words.size()-1].length()-1){
-				result = words[words.size()-1][j]+result;
-	}
-	cout<<result<<endl;
-	words.clear();
-}
-void proc() {
-	while(getline(cin,str)!=NULL){
-		reverse();
+		k=0;
+		if(s2.length()%t.length())
+		{
+				cout<<"NO"<<endl;
+				c=1;
+		}
+		else
+		{
+			for(j=0;j<s2.length()/t.length();j++)
+				if(t.compare(s2.substr(j*t.length(),t.length())))
+				{
+					cout<<"NO"<<endl;
+					c=1;
+					break;
+				}
+			if(c==0)
+				cout<<"YES"<<endl;
+		}
 
 	}
+
+return 0;
 }
 
-int main() {
-	proc();
-}
+
+
 
 
 */

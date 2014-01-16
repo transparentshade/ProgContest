@@ -1,8 +1,8 @@
 /*
 
- * 424.cpp
+ * SQRBR.cpp
  *
- *  Created on: 14-Jan-2014
+ *  Created on: 15-Jan-2014
  *      Author: nik
 
 #include <cstdio>
@@ -19,8 +19,6 @@
 #include <set>
 #include <cstring>
 #include <bitset>
-#include <string.h>
-#include<iterator>
 using namespace std;
 #define x first
 #define y second
@@ -53,45 +51,42 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 #define MEMSET_HALF_INF 63 // about 1B
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
-vector<string> &split(const string &s, char delim, vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-string str;
-vector<string> words;
-char* reverse() {
-	int len = str.size();
-	split(str,' ',words);
-	string result;
-	REP(i,0,words.size()-2) {
-		//cout<<words[i]<<endl;
-		result = "";
-		REP(j,0,words[i].length()-1){
-			result = words[i][j]+result;
-		}
-		cout<<result<<" ";
+int n;
+bool arr[40];
+ll data[40][40];
+ll calc(int pos,int oc){
+	if(oc<0) return 0;
+	if(pos==2*n){
+		//cout<<pos<<" "<<oc<<" 1 "<<endl;
+		return oc==0?1:0;
 	}
-	result = "";
-	REP(j,0,words[words.size()-1].length()-1){
-				result = words[words.size()-1][j]+result;
+	if(data[pos][oc]>=0){
+		return data[pos][oc];
 	}
-	cout<<result<<endl;
-	words.clear();
-}
-void proc() {
-	while(getline(cin,str)!=NULL){
-		reverse();
-
-	}
+	data[pos][oc] = calc(pos+1,oc+1)+(arr[pos+1]?0:calc(pos+1,oc-1));
+   // cout<<pos<<" "<<oc<<"  "<<data[pos][oc]<<endl;
+    //return len;
+     return data[pos][oc];
 }
 
 int main() {
-	proc();
+	int T,k;
+	scanf("%d",&T);
+
+	REP(time,1,T){
+		memset(arr,0,sizeof(arr));
+		memset(data,-1,sizeof(data));
+		scanf("%d %d",&n,&k);
+		int pos;
+		REP(i,1,k){
+			scanf("%d",&pos);
+			arr[pos] = true;
+		}
+		//n = n<<1;
+		cout<<calc(1,1)<<endl;
+	}
 }
+
 
 
 */

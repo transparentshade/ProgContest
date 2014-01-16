@@ -1,8 +1,8 @@
 /*
 
- * 424.cpp
+ * TRIKA2.cpp
  *
- *  Created on: 14-Jan-2014
+ *  Created on: 16-Jan-2014
  *      Author: nik
 
 #include <cstdio>
@@ -19,8 +19,6 @@
 #include <set>
 #include <cstring>
 #include <bitset>
-#include <string.h>
-#include<iterator>
 using namespace std;
 #define x first
 #define y second
@@ -53,44 +51,35 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 #define MEMSET_HALF_INF 63 // about 1B
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
-vector<string> &split(const string &s, char delim, vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-string str;
-vector<string> words;
-char* reverse() {
-	int len = str.size();
-	split(str,' ',words);
-	string result;
-	REP(i,0,words.size()-2) {
-		//cout<<words[i]<<endl;
-		result = "";
-		REP(j,0,words[i].length()-1){
-			result = words[i][j]+result;
-		}
-		cout<<result<<" ";
-	}
-	result = "";
-	REP(j,0,words[words.size()-1].length()-1){
-				result = words[words.size()-1][j]+result;
-	}
-	cout<<result<<endl;
-	words.clear();
-}
-void proc() {
-	while(getline(cin,str)!=NULL){
-		reverse();
 
-	}
-}
-
+#define NMIN -16589
+int N,M,X,Y,p[30][30],dp[30][30];
 int main() {
-	proc();
+	memset(dp,NMIN,sizeof(dp));
+	//memset(p,1000000,sizeof(p));
+	scanf("%d %d",&N,&M);
+	scanf("%d %d",&X,&Y);
+	REP(i,1,N){
+		REP(j,1,M){
+			scanf("%d",&p[i][j]);
+		}
+	}
+	dp[X][Y] = p[X][Y];
+	REP(i,X+1,N) dp[i][Y] = dp[i-1][Y]-p[i][Y];
+	REP(j,Y+1,M) dp[X][j] = dp[X][j-1]-p[X][j];
+	REP(i,X+1,N){
+		REP(j,Y+1,M){
+			dp[i][j] = max(dp[i-1][j],dp[i][j-1])-p[i][j];
+		}
+	}
+	//cout<<dp[N][M]<<endl;
+	if(dp[N][M]>=0) {
+
+		cout<<"Y "<<dp[N][M]<<endl;
+	}
+	else {
+		cout<<"N"<<endl;
+	}
 }
 
 

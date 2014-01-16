@@ -1,8 +1,9 @@
 /*
 
- * 424.cpp
+
+ * SPCU.cpp
  *
- *  Created on: 14-Jan-2014
+ *  Created on: 16-Jan-2014
  *      Author: nik
 
 #include <cstdio>
@@ -19,8 +20,6 @@
 #include <set>
 #include <cstring>
 #include <bitset>
-#include <string.h>
-#include<iterator>
 using namespace std;
 #define x first
 #define y second
@@ -53,45 +52,27 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 #define MEMSET_HALF_INF 63 // about 1B
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
-vector<string> &split(const string &s, char delim, vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-string str;
-vector<string> words;
-char* reverse() {
-	int len = str.size();
-	split(str,' ',words);
-	string result;
-	REP(i,0,words.size()-2) {
-		//cout<<words[i]<<endl;
-		result = "";
-		REP(j,0,words[i].length()-1){
-			result = words[i][j]+result;
-		}
-		cout<<result<<" ";
-	}
-	result = "";
-	REP(j,0,words[words.size()-1].length()-1){
-				result = words[words.size()-1][j]+result;
-	}
-	cout<<result<<endl;
-	words.clear();
-}
-void proc() {
-	while(getline(cin,str)!=NULL){
-		reverse();
-
-	}
-}
-
+int a[100009];
+int n;
 int main() {
-	proc();
+	int T;
+	cin>>T;
+	REP(j,1,T) {
+		scanf("%d",&n);
+		bool flag = true;
+		REP(i,1,n) {
+			scanf("%d",&a[i]);
+			if(a[i]>=i){
+				flag = false;
+
+			}
+		}
+		if(flag) cout<<"YES"<<endl;
+		else cout<<"NO"<<endl;
+	}
+
 }
+
 
 
 */

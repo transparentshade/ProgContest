@@ -1,8 +1,8 @@
 /*
 
- * 424.cpp
+ * TRIKA.cpp
  *
- *  Created on: 14-Jan-2014
+ *  Created on: 15-Jan-2014
  *      Author: nik
 
 #include <cstdio>
@@ -19,8 +19,6 @@
 #include <set>
 #include <cstring>
 #include <bitset>
-#include <string.h>
-#include<iterator>
 using namespace std;
 #define x first
 #define y second
@@ -53,45 +51,40 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 #define MEMSET_HALF_INF 63 // about 1B
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
-vector<string> &split(const string &s, char delim, vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-string str;
-vector<string> words;
-char* reverse() {
-	int len = str.size();
-	split(str,' ',words);
-	string result;
-	REP(i,0,words.size()-2) {
-		//cout<<words[i]<<endl;
-		result = "";
-		REP(j,0,words[i].length()-1){
-			result = words[i][j]+result;
-		}
-		cout<<result<<" ";
+#define NMIN -162354
+int X,Y,N,M;
+int dp[50][50];
+int p[50][50];
+int proc(int x,int y,int pow) {
+	if(pow<0) return NMIN;
+	//cout<<x<<" "<<y<<"  "<<pow<<endl;
+	if(x==N && y==M) {
+		//cout<<pow<<endl;
+		return pow;
 	}
-	result = "";
-	REP(j,0,words[words.size()-1].length()-1){
-				result = words[words.size()-1][j]+result;
-	}
-	cout<<result<<endl;
-	words.clear();
+	if( x>N || y>M) return NMIN;
+	if(dp[x][y]>=pow) return dp[x][y];
+	dp[x][y] = max(proc(x+1,y,pow-p[x+1][y]),proc(x,y+1,pow-p[x][y+1]));
+	return dp[x][y];
 }
-void proc() {
-	while(getline(cin,str)!=NULL){
-		reverse();
-
-	}
-}
-
 int main() {
-	proc();
-}
+	memset(dp,NMIN,sizeof(dp));
+	memset(p,1000000,sizeof(p));
+	scanf("%d %d",&N,&M);
+	scanf("%d %d",&X,&Y);
+	REP(i,1,N){
+		REP(j,1,M){
+			scanf("%d",&p[i][j]);
+		}
+	}
+	int result = proc(X,Y,p[X][Y]);
+	if(result>=0) {
 
+		cout<<"Y "<<result<<endl;
+	}
+	else {
+		cout<<"N"<<endl;
+	}
+}
 
 */
