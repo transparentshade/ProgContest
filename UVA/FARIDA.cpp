@@ -1,10 +1,15 @@
 /*
-
+ * FARIDA.cpp
+ *
+ *  Created on: 18-Jan-2014
+ *      Author: nik
+ */
+/*
  * PERMUT1.cpp
  *
  *  Created on: 16-Jan-2014
  *      Author: nik
-
+ */
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -53,46 +58,46 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 #define MEMSET_HALF_INF 63 // about 1B
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
-
-int T,n,cnt;
-int dp[14][100];
-ll calc(int cur,int k) {
-	//cout<<cur<<"  "<<k<<endl;
-	if(cur>n) return 0;
-	if(k<0) return 0;
-	if(k==0)return 1;
-	ll len=0;
-	REP(i,0,n-cur){
-		if(i>k) break;
-		len += calc(cur+1,k-i);
+ll dp[10006];
+int n;
+int cnt = 0;
+int proc(){
+	if(n<4){
+		switch(n) {
+			case 0:
+				cout<<"Case "<<cnt<<": 0"<<endl;
+				break;
+			case 1:
+				cout<<"Case "<<cnt<<": "<<dp[0]<<endl;
+				break;
+			case 2:
+				cout<<"Case "<<cnt<<": "<<max(dp[0],dp[1])<<endl;
+				break;
+			case 3:
+				cout<<"Case "<<cnt<<": "<<max(dp[0]+dp[2],dp[1])<<endl;
+		}
+		return 0;
 	}
-	return len;
+	n--;
+
+	REPREV(i,n-2,0){
+		dp[i] = max(dp[i],max(dp[i]+dp[i+2],dp[i+1]));
+	}
+	cout<<"Case "<<cnt<<": "<<dp[0]<<endl;
 }
+void read(){
+	cin>>n;
+	REP(i,0,n-1)cin>>dp[i];
+
+}
+
 int main() {
+	int T;
 	cin>>T;
-	int val;
 	REP(i,1,T) {
-		cin>>n>>cnt;
-		if(cnt==0){
-			cout<<"1"<<endl;
-			continue;
-		}
-		memset(dp,0,sizeof(dp));
-		dp[n-1][1] = 1;
-		REPREV(node,n-1,1) {
-			val = n-node;
-			dp[node][0] = 1;
-			REP(j,1,(val*(val+1))/2) {
-				if(j<=val)dp[node][j] = 1;
-				REP(p,1,j) {
-					if(j-p<=val)dp[node][j] +=  dp[node+1][p];
-				}
-			//	cout<<node<<" "<<j<<"  "<<dp[node][j]<<endl;
-			}
-		}
-		cout<<dp[1][cnt]<<endl;
+		cnt = i;
+		read();
+		proc();
 	}
 }
 
-
-*/

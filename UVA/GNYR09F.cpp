@@ -1,5 +1,11 @@
 /*
 
+ * GNYR09F.cpp
+ *
+ *  Created on: 18-Jan-2014
+ *      Author: nik
+
+
  * PERMUT1.cpp
  *
  *  Created on: 16-Jan-2014
@@ -54,45 +60,37 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
 
-int T,n,cnt;
-int dp[14][100];
-ll calc(int cur,int k) {
-	//cout<<cur<<"  "<<k<<endl;
-	if(cur>n) return 0;
-	if(k<0) return 0;
-	if(k==0)return 1;
-	ll len=0;
-	REP(i,0,n-cur){
-		if(i>k) break;
-		len += calc(cur+1,k-i);
-	}
-	return len;
-}
-int main() {
-	cin>>T;
-	int val;
-	REP(i,1,T) {
-		cin>>n>>cnt;
-		if(cnt==0){
-			cout<<"1"<<endl;
-			continue;
-		}
-		memset(dp,0,sizeof(dp));
-		dp[n-1][1] = 1;
-		REPREV(node,n-1,1) {
-			val = n-node;
-			dp[node][0] = 1;
-			REP(j,1,(val*(val+1))/2) {
-				if(j<=val)dp[node][j] = 1;
-				REP(p,1,j) {
-					if(j-p<=val)dp[node][j] +=  dp[node+1][p];
-				}
-			//	cout<<node<<" "<<j<<"  "<<dp[node][j]<<endl;
+ll dp[100][105][2];
+int n,k,c;
+void proc() {
+	dp[n-1][0][0]=2;
+	dp[n-1][0][1] = 1;
+	dp[n-1][1][0]=0;
+	dp[n-1][1][1] = 1;
+	REPREV(i,n-2,1){
+		REP(j,0,n-i){
+			if(j>0) {
+				dp[i][j][1] = dp[i+1][j][0] + (dp[i+1][j-1][1]);
 			}
+			else {
+				dp[i][j][1] = dp[i+1][j][0];
+			}
+			dp[i][j][0] = dp[i+1][j][0] + dp[i+1][j][1];
+			//cout<<n-i+1<<" "<<j<<" "<<" 0 "<<dp[i][j][0]<<endl;
+			//cout<<n-i+1<<" "<<j<<" "<<" 1 "<<dp[i][j][1]<<endl;
 		}
-		cout<<dp[1][cnt]<<endl;
 	}
+	cout<<c<<" "<<(dp[1][k][0]+dp[1][k][1])<<endl;
 }
 
+int main() {
+	int T;
+	cin>>T;
+	REP(times,1,T) {
+		memset(dp,0,sizeof(dp));
+		scanf("%d %d %d",&c,&n,&k);
+		proc();
+	}
+}
 
 */

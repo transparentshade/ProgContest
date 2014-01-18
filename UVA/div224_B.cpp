@@ -1,5 +1,11 @@
 /*
 
+ * div224_B.cpp
+ *
+ *  Created on: 17-Jan-2014
+ *      Author: nik
+
+
  * PERMUT1.cpp
  *
  *  Created on: 16-Jan-2014
@@ -54,43 +60,45 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
 
-int T,n,cnt;
-int dp[14][100];
-ll calc(int cur,int k) {
-	//cout<<cur<<"  "<<k<<endl;
-	if(cur>n) return 0;
-	if(k<0) return 0;
-	if(k==0)return 1;
-	ll len=0;
-	REP(i,0,n-cur){
-		if(i>k) break;
-		len += calc(cur+1,k-i);
-	}
-	return len;
-}
+int n,n1,n2,diff1,diff2,i1,i2;
+vi a;
 int main() {
-	cin>>T;
-	int val;
-	REP(i,1,T) {
-		cin>>n>>cnt;
-		if(cnt==0){
-			cout<<"1"<<endl;
-			continue;
-		}
-		memset(dp,0,sizeof(dp));
-		dp[n-1][1] = 1;
-		REPREV(node,n-1,1) {
-			val = n-node;
-			dp[node][0] = 1;
-			REP(j,1,(val*(val+1))/2) {
-				if(j<=val)dp[node][j] = 1;
-				REP(p,1,j) {
-					if(j-p<=val)dp[node][j] +=  dp[node+1][p];
-				}
-			//	cout<<node<<" "<<j<<"  "<<dp[node][j]<<endl;
+	scanf("%d",&n);
+	if(n==2) {
+		scanf("%d",n1);
+		cout<<"-1"<<endl;
+		return 0;
+	}
+	int temp;
+	REP(i,0,n-1) {
+		scanf("%d",&temp);
+		a.push_back(temp);
+	}
+	sort(a.begin(),a.end());
+	REP(i,0,n-1) {
+		cout<<a[i]<<endl;
+	}
+	int d1 = a[1] - a[0];
+	if(n==2) {
+		cout<<"2"<<endl;
+		cout<<(a[0]-diff1<<" "<<a[1]+diff1);
+	}
+	bool diffoccured = false;
+	int d1,d2;
+	REP(i,0,n-2) {
+		diff1 = a[i+1]-a[i];
+		if(diff1!=d1) {
+			if(diffoccured){
+				cout<<"-1"<<endl;
+				return 0;
 			}
+			diffoccured = true;
+			i1 = i;
+			d1= diff1;
 		}
-		cout<<dp[1][cnt]<<endl;
+	}
+	if(i1>1) {
+
 	}
 }
 

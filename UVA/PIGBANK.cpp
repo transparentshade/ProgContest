@@ -1,5 +1,11 @@
 /*
 
+ * PIGBANK.cpp
+ *
+ *  Created on: 18-Jan-2014
+ *      Author: nik
+
+
  * PERMUT1.cpp
  *
  *  Created on: 16-Jan-2014
@@ -47,51 +53,65 @@ for (vi::iterator it = (c).begin(); it != (c).end(); it++)
 for (vii::iterator it = (c).begin(); it != (c).end(); it++)
 #define TRmsi(c, it) \
 for (msi::iterator it = (c).begin(); it != (c).end(); it++)
-#define INF 2000000000 // 2 billion
+ // 2 billion
 // If you need to recall how to use memset:
 #define MEMSET_INF 127 // about 2B
 #define MEMSET_HALF_INF 63 // about 1B
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
-
-int T,n,cnt;
-int dp[14][100];
-ll calc(int cur,int k) {
-	//cout<<cur<<"  "<<k<<endl;
-	if(cur>n) return 0;
-	if(k<0) return 0;
-	if(k==0)return 1;
-	ll len=0;
-	REP(i,0,n-cur){
-		if(i>k) break;
-		len += calc(cur+1,k-i);
+struct sort_pred{
+	bool operator()(const ii a,const ii b){
+		return a.y<b.y;
 	}
-	return len;
-}
-int main() {
-	cin>>T;
-	int val;
-	REP(i,1,T) {
-		cin>>n>>cnt;
-		if(cnt==0){
-			cout<<"1"<<endl;
-			continue;
-		}
-		memset(dp,0,sizeof(dp));
-		dp[n-1][1] = 1;
-		REPREV(node,n-1,1) {
-			val = n-node;
-			dp[node][0] = 1;
-			REP(j,1,(val*(val+1))/2) {
-				if(j<=val)dp[node][j] = 1;
-				REP(p,1,j) {
-					if(j-p<=val)dp[node][j] +=  dp[node+1][p];
-				}
-			//	cout<<node<<" "<<j<<"  "<<dp[node][j]<<endl;
+};
+ll  llINF = 2000000000;
+ll dp[10005];
+int E,F,N,P,W,wt;
+vii ele;
+
+void proc() {
+	sort(ele.begin(),ele.end(),sort_pred());
+	REP(i,1,wt){
+		//memset(dp,100000000,sizeof(dp));
+		dp[i]= llINF;
+	}
+
+	dp[0] = 0;
+	REP(i,1,wt) {
+		REP(j,0,ele.size()-1){
+			if(ele[j].y>i)break;
+			//cout<<"wt "<<ele[j].y<<"  "<<i-(ele[j].y)<<endl;
+			if(dp[i]>(dp[i-ele[j].y]+ele[j].x)){
+				dp[i]= (dp[i-ele[j].y]+ele[j].x);
 			}
 		}
-		cout<<dp[1][cnt]<<endl;
 	}
+	if(dp[wt]<llINF){
+		cout<<"The minimum amount of money in the piggy-bank is "<<dp[wt]<<"."<<endl;
+	}
+	else {
+		cout<<"This is impossible."<<endl;
+	}
+	ele.clear();
+
+}
+void read() {
+	cin>>E>>F;
+		cin>>N;
+		wt= F-E;
+		REP(i,1,N){
+			cin>>P>>W;
+			ele.push_back(make_pair(P,W));
+		}
+}
+int main() {
+	int T;
+	cin>>T;
+	REP(i,1,T){
+		read();
+		proc();
+	}
+
 }
 
 

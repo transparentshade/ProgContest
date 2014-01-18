@@ -1,5 +1,11 @@
 /*
 
+ * div224_A.cpp
+ *
+ *  Created on: 17-Jan-2014
+ *      Author: nik
+
+
  * PERMUT1.cpp
  *
  *  Created on: 16-Jan-2014
@@ -54,45 +60,63 @@ for (msi::iterator it = (c).begin(); it != (c).end(); it++)
 //memset(dist, MEMSET_INF, sizeof dist); // useful to initialize shortest path distances
 //memset(dp_memo, -1, sizeof dp_memo); // useful to initialize DP memoization table
 
-int T,n,cnt;
-int dp[14][100];
-ll calc(int cur,int k) {
-	//cout<<cur<<"  "<<k<<endl;
-	if(cur>n) return 0;
-	if(k<0) return 0;
-	if(k==0)return 1;
-	ll len=0;
-	REP(i,0,n-cur){
-		if(i>k) break;
-		len += calc(cur+1,k-i);
-	}
-	return len;
-}
-int main() {
-	cin>>T;
-	int val;
-	REP(i,1,T) {
-		cin>>n>>cnt;
-		if(cnt==0){
-			cout<<"1"<<endl;
-			continue;
-		}
-		memset(dp,0,sizeof(dp));
-		dp[n-1][1] = 1;
-		REPREV(node,n-1,1) {
-			val = n-node;
-			dp[node][0] = 1;
-			REP(j,1,(val*(val+1))/2) {
-				if(j<=val)dp[node][j] = 1;
-				REP(p,1,j) {
-					if(j-p<=val)dp[node][j] +=  dp[node+1][p];
-				}
-			//	cout<<node<<" "<<j<<"  "<<dp[node][j]<<endl;
-			}
-		}
-		cout<<dp[1][cnt]<<endl;
-	}
-}
+char str[30];
 
+char str2[30];
+char ans1[30],ans2[30];
+int i1,i2,input;
+int main() {
+	cin>>str;
+	cin>>str2;
+	int len = strlen(str);
+	int s1=0,s2=0;
+	bool flag = false;
+	REP(i,0,len-1){
+		if(str[i]=='|'){
+			flag = true;
+		}
+		else if(flag){
+			ans2[s2] = str[i];
+			s2++;
+		}
+		else{
+			ans1[s1] = str[i];
+			s1++;
+		}
+	}
+	len = strlen(str2)-1;
+	bool err = false;
+	if(s1<s2){
+		while(s1!=s2 && len>=0){
+			ans1[s1] = str2[len];
+			len--;
+			s1++;
+		}
+		if(s1!=s2) err = true;
+	}
+	else if(s1>s2) {
+		while(s1!=s2 && len>=0){
+					ans2[s2] = str2[len];
+					len--;
+					s2++;
+		}
+		if(s1!=s2) err = true;
+	}
+	if(err || (len+1)%2){
+		cout<<"Impossible"<<endl;
+	}
+	else {
+		while(len>=0) {
+			ans1[s1]=str2[len];
+			len--;
+			ans2[s2]= str2[len];
+			len--;
+			s1++;
+			s2++;
+		}
+		cout<<ans1<<"|"<<ans2<<endl;
+	}
+
+}
 
 */
